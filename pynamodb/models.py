@@ -183,6 +183,7 @@ class MetaProtocol(Protocol):
     read_timeout_seconds: int
     max_retry_attempts: int
     max_pool_connections: int
+    tcp_keepalive: bool
     extra_headers: Mapping[str, str]
     aws_access_key_id: Optional[str]
     aws_secret_access_key: Optional[str]
@@ -253,8 +254,6 @@ class MetaModel(AttributeContainerMeta):
                         setattr(attr_obj, 'aws_secret_access_key', None)
                     if not hasattr(attr_obj, 'aws_session_token'):
                         setattr(attr_obj, 'aws_session_token', None)
-                    if not hasattr(attr_obj, 'tcp_keepalive'):
-                        setattr(attr_obj, 'tcp_keepalive', get_settings_value('tcp_keepalive'))
 
             # create a custom Model.DoesNotExist derived from pynamodb.exceptions.DoesNotExist,
             # so that "except Model.DoesNotExist:" would not catch other models' exceptions
@@ -1089,6 +1088,7 @@ class Model(AttributeContainer, metaclass=MetaModel):
                                               read_timeout_seconds=cls.Meta.read_timeout_seconds,
                                               max_retry_attempts=cls.Meta.max_retry_attempts,
                                               max_pool_connections=cls.Meta.max_pool_connections,
+                                              tcp_keepalive=cls.Meta.tcp_keepalive,
                                               extra_headers=cls.Meta.extra_headers,
                                               aws_access_key_id=cls.Meta.aws_access_key_id,
                                               aws_secret_access_key=cls.Meta.aws_secret_access_key,
