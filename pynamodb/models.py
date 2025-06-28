@@ -237,6 +237,8 @@ class MetaModel(AttributeContainerMeta):
                         warnings.warn("The `session_cls` and `request_timeout_second` options are no longer supported")
                     if not hasattr(attr_obj, 'connect_timeout_seconds'):
                         setattr(attr_obj, 'connect_timeout_seconds', get_settings_value('connect_timeout_seconds'))
+                    if not hasattr(attr_obj, 'tcp_keepalive'):
+                        setattr(attr_obj, 'tcp_keepalive', get_settings_value('tcp_keepalive'))
                     if not hasattr(attr_obj, 'read_timeout_seconds'):
                         setattr(attr_obj, 'read_timeout_seconds', get_settings_value('read_timeout_seconds'))
                     if not hasattr(attr_obj, 'max_retry_attempts'):
@@ -251,6 +253,8 @@ class MetaModel(AttributeContainerMeta):
                         setattr(attr_obj, 'aws_secret_access_key', None)
                     if not hasattr(attr_obj, 'aws_session_token'):
                         setattr(attr_obj, 'aws_session_token', None)
+                    if not hasattr(attr_obj, 'tcp_keepalive'):
+                        setattr(attr_obj, 'tcp_keepalive', get_settings_value('tcp_keepalive'))
 
             # create a custom Model.DoesNotExist derived from pynamodb.exceptions.DoesNotExist,
             # so that "except Model.DoesNotExist:" would not catch other models' exceptions

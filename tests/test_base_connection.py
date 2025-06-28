@@ -1517,6 +1517,11 @@ def test_connection__botocore_config():
     assert c.client._client_config.connect_timeout == 5
     assert c.client._client_config.read_timeout == 10
     assert c.client._client_config.max_pool_connections == 20
+    assert c.client._client_config.tcp_keepalive is None
+
+def test_connection__botocore_config_tcp_keepalive():
+    c = Connection(tcp_keepalive=True)
+    assert c.client._client_config.tcp_keepalive is True
 
 
 @freeze_time()
