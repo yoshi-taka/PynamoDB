@@ -1517,7 +1517,7 @@ def test_connection__botocore_config():
     assert c.client._client_config.connect_timeout == 5
     assert c.client._client_config.read_timeout == 10
     assert c.client._client_config.max_pool_connections == 20
-    assert c.client._client_config.tcp_keepalive is None
+    assert c.client._client_config.tcp_keepalive is False
 
 def test_connection__botocore_config_tcp_keepalive():
     c = Connection(tcp_keepalive=True)
@@ -1675,6 +1675,7 @@ def test_connection_client_retry_configuration(
         connect_timeout=unit_under_test._connect_timeout_seconds,
         read_timeout=unit_under_test._read_timeout_seconds,
         max_pool_connections=unit_under_test._max_pool_connections,
+        tcp_keepalive=False,
         retries=expected_retries
     )
     # Ensure the session was created correctly.
